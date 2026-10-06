@@ -1,0 +1,7 @@
+Flask
+qrcode
+Pillow
+pytesseract
+reportlab
+PyMuPDF
+gunicorn
