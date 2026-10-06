@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | AI Digital Credential</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        /* =====================================================
+           ADMIN DASHBOARD
+        ===================================================== */
+
+        .admin-dashboard {
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        /* =====================================================
+           TOP BAR
+        ===================================================== */
+
+        .admin-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 16px 22px;
+            margin-bottom: 30px;
+
+            border: 1px solid rgba(129, 140, 248, 0.25);
+            border-radius: 16px;
+
+            background: rgba(15, 23, 42, 0.88);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.22);
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .admin-logo {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            font-size: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            box-shadow:
+                0 0 22px rgba(99, 102, 241, 0.35);
+        }
+
+        .admin-brand h2 {
+            margin: 0;
+
+            font-size: 18px;
+            color: #f8fafc;
+        }
+
+        .admin-brand p {
+            margin: 3px 0 0;
+
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-user-badge {
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            background: rgba(99, 102, 241, 0.12);
+
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.25);
+
+            color: #c7d2fe;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .admin-header {
+            margin-bottom: 24px;
+        }
+
+        .admin-header h1 {
+            margin: 0 0 7px;
+
+            font-size: 32px;
+
+            color: #f8fafc;
+        }
+
+        .admin-header p {
+            margin: 0;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .admin-stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            position: relative;
+
+            padding: 20px;
+
+            min-height: 145px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(15, 23, 42, 0.88);
+
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.22);
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 90px;
+            height: 90px;
+
+            right: -35px;
+            top: -35px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(99, 102, 241, 0.08);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+
+            border-color:
+                rgba(129, 140, 248, 0.55);
+
+            box-shadow:
+                0 15px 35px
+                rgba(79, 70, 229, 0.15);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 13px;
+
+            border-radius: 11px;
+
+            font-size: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(99, 102, 241, 0.22),
+                    rgba(139, 92, 246, 0.13)
+                );
+        }
+
+        .stat-card h3 {
+            margin: 0 0 5px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 29px;
+
+            font-weight: 800;
+
+            color: #f8fafc;
+        }
+
+        .stat-description {
+            margin-top: 4px;
+
+            color: #64748b;
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           ADMIN CONTROLS
+        ===================================================== */
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+
+            font-size: 20px;
+
+            color: #f8fafc;
+        }
+
+        .admin-controls {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+
+            width: 100%;
+        }
+
+
+        /* =====================================================
+           CONTROL CARD
+        ===================================================== */
+
+        .control-card {
+            display: flex;
+            flex-direction: column;
+
+            min-height: 245px;
+
+            padding: 21px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(15, 23, 42, 0.88);
+
+            border:
+                1px solid
+                rgba(129, 140, 248, 0.20);
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .control-card:hover {
+            transform: translateY(-5px);
+
+            border-color:
+                rgba(129, 140, 248, 0.55);
+
+            box-shadow:
+                0 16px 35px
+                rgba(79, 70, 229, 0.15);
+        }
+
+        .control-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 15px;
+
+            border-radius: 13px;
+
+            font-size: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(99, 102, 241, 0.22),
+                    rgba(139, 92, 246, 0.12)
+                );
+        }
+
+        .control-card h3 {
+            margin: 0 0 9px;
+
+            font-size: 16px;
+
+            color: #f8fafc;
+        }
+
+        .control-card p {
+            margin: 0 0 18px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            line-height: 1.55;
+
+            flex: 1;
+        }
+
+        .control-btn {
+            display: block;
+
+            width: 100%;
+
+            padding: 10px 12px;
+
+            box-sizing: border-box;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(99, 102, 241, 0.30);
+        }
+
+
+        /* =====================================================
+           REGISTER CERTIFICATE
+        ===================================================== */
+
+        .register-card {
+            border:
+                1px solid
+                rgba(34, 197, 94, 0.30);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 23, 42, 0.92),
+                    rgba(20, 45, 35, 0.82)
+                );
+        }
+
+        .register-card:hover {
+            border-color:
+                rgba(34, 197, 94, 0.65);
+
+            box-shadow:
+                0 16px 40px
+                rgba(34, 197, 94, 0.12);
+        }
+
+        .register-card .control-icon {
+            background:
+                rgba(34, 197, 94, 0.12);
+        }
+
+        .register-card .control-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    #16a34a,
+                    #22c55e
+                );
+        }
+
+
+        /* =====================================================
+           SYSTEM STATUS
+        ===================================================== */
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            margin-top: 26px;
+
+            padding: 17px 20px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(15, 23, 42, 0.88);
+
+            border:
+                1px solid
+                rgba(34, 197, 94, 0.22);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 15px
+                rgba(34, 197, 94, 0.8);
+        }
+
+        .status-content strong {
+            color: #86efac;
+
+            font-size: 12px;
+        }
+
+        .status-content p {
+            margin: 3px 0 0;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        .admin-logout {
+            display: flex;
+
+            justify-content: center;
+
+            margin-top: 22px;
+        }
+
+        .logout-btn {
+            display: inline-block;
+
+            padding: 9px 18px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(99, 102, 241, 0.30);
+        }
+
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        .stat-card,
+        .control-card {
+            animation: dashboardAppear 0.55s ease both;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        .control-card:nth-child(1) {
+            animation-delay: 0.25s;
+        }
+
+        .control-card:nth-child(2) {
+            animation-delay: 0.30s;
+        }
+
+        .control-card:nth-child(3) {
+            animation-delay: 0.35s;
+        }
+
+        .control-card:nth-child(4) {
+            animation-delay: 0.40s;
+        }
+
+        @keyframes dashboardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .admin-stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .admin-controls {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .admin-topbar {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .admin-user {
+                width: 100%;
+            }
+
+            .admin-header h1 {
+                font-size: 27px;
+            }
+
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .control-card {
+                min-height: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container admin-dashboard">
+
+
+    <!-- =====================================================
+         ADMIN TOP BAR
+    ===================================================== -->
+
+    <div class="admin-topbar">
+
+        <div class="admin-brand">
+
+            <div class="admin-logo">
+                🛡️
+            </div>
+
+            <div>
+
+                <h2>
+                    AI Digital Credential
+                </h2>
+
+                <p>
+                    Certificate Verification System
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-user">
+
+            <div class="admin-user-badge">
+
+                👤 Welcome,
+                {{ session.get("admin_username", "Admin") }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <div class="admin-header">
+
+        <h1>
+            Admin Dashboard
+        </h1>
+
+        <p>
+            Monitor credentials, certificates and
+            verification activity.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ===================================================== -->
+
+    <div class="admin-stats">
+
+
+        <!-- USERS -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👨‍🎓
+            </div>
+
+            <h3>
+                Total Users
+            </h3>
+
+            <div class="stat-number">
+                {{ total_users }}
+            </div>
+
+            <div class="stat-description">
+                Registered users
+            </div>
+
+        </div>
+
+
+        <!-- CREDENTIALS -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📜
+            </div>
+
+            <h3>
+                Total Credentials
+            </h3>
+
+            <div class="stat-number">
+                {{ total_credentials }}
+            </div>
+
+            <div class="stat-description">
+                Digital credentials issued
+            </div>
+
+        </div>
+
+
+        <!-- VERIFIED -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ✅
+            </div>
+
+            <h3>
+                Verified Credentials
+            </h3>
+
+            <div class="stat-number">
+                {{ total_verified }}
+            </div>
+
+            <div class="stat-description">
+                Successful verification attempts
+            </div>
+
+        </div>
+
+
+        <!-- INVALID -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ❌
+            </div>
+
+            <h3>
+                Invalid Attempts
+            </h3>
+
+            <div class="stat-number">
+                {{ total_invalid }}
+            </div>
+
+            <div class="stat-description">
+                Failed verification attempts
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADMIN CONTROLS
+    ===================================================== -->
+
+    <div class="section-heading">
+
+        <span>
+            ⚙️
+        </span>
+
+        <h2>
+            Admin Controls
+        </h2>
+
+    </div>
+
+
+    <div class="admin-controls">
+
+
+        <!-- MANAGE CREDENTIALS -->
+
+        <div class="control-card">
+
+            <div class="control-icon">
+                📜
+            </div>
+
+            <h3>
+                Manage Credentials
+            </h3>
+
+            <p>
+                View registered users and manage
+                their digital credential information.
+            </p>
+
+            <a
+                href="{{ url_for('admin_credentials') }}"
+                class="control-btn"
+            >
+                Open Credentials →
+            </a>
+
+        </div>
+
+
+        <!-- VERIFICATION HISTORY -->
+
+        <div class="control-card">
+
+            <div class="control-icon">
+                📊
+            </div>
+
+            <h3>
+                Verification History
+            </h3>
+
+            <p>
+                Monitor AI and QR verification
+                activities performed in the system.
+            </p>
+
+            <a
+                href="{{ url_for('admin_history') }}"
+                class="control-btn"
+            >
+                View History →
+            </a>
+
+        </div>
+
+
+        <!-- CERTIFICATE UPLOADS -->
+
+        <div class="control-card">
+
+            <div class="control-icon">
+                📁
+            </div>
+
+            <h3>
+                Certificate Uploads
+            </h3>
+
+            <p>
+                View certificates uploaded for
+                verification and management.
+            </p>
+
+            <a
+                href="{{ url_for('admin_uploads') }}"
+                class="control-btn"
+            >
+                View Uploads →
+            </a>
+
+        </div>
+
+
+        <!-- REGISTER ORIGINAL CERTIFICATE -->
+
+        <div class="control-card register-card">
+
+            <div class="control-icon">
+                🔐
+            </div>
+
+            <h3>
+                Register Original Certificate
+            </h3>
+
+            <p>
+                Upload an original certificate,
+                extract its validation code using
+                OCR and register it in the database.
+            </p>
+
+            <a
+                href="{{ url_for('admin_register_certificate') }}"
+                class="control-btn"
+            >
+                Register Certificate →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SYSTEM STATUS
+    ===================================================== -->
+
+    <div class="system-status">
+
+        <div class="status-dot"></div>
+
+        <div class="status-content">
+
+            <strong>
+                System Online
+            </strong>
+
+            <p>
+                AI Digital Credential Verification
+                System is running normally.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGOUT
+    ===================================================== -->
+
+    <div class="admin-logout">
+
+        <a
+            href="{{ url_for('admin_logout') }}"
+            class="logout-btn"
+        >
+            🚪 Admin Logout
+        </a>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

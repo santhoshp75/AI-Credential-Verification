@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Certificate Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eef2ff,
+                    #ecfeff
+                );
+
+            color: #172033;
+        }
+
+        .nav {
+            padding: 18px 6%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            background: rgba(255,255,255,.9);
+
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 21px;
+
+            font-weight: 900;
+
+            color: #312e81;
+        }
+
+        .container {
+            width: 92%;
+
+            max-width: 1200px;
+
+            margin: 40px auto;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+
+            color: #1e1b4b;
+        }
+
+        .subtitle {
+            color: #64748b;
+
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 20px 50px
+                rgba(15,23,42,.08);
+
+            animation:
+                appear .6s ease;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 800px;
+        }
+
+        th {
+            padding: 16px;
+
+            text-align: left;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            font-size: 13px;
+        }
+
+        td {
+            padding: 16px;
+
+            border-top:
+                1px solid #e2e8f0;
+
+            font-size: 14px;
+        }
+
+        tr {
+            transition: .25s;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .credential {
+            font-weight: 800;
+
+            color: #4f46e5;
+        }
+
+        .verified {
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            font-weight: 800;
+
+            font-size: 12px;
+        }
+
+        .unknown {
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            background: #fef3c7;
+
+            color: #92400e;
+
+            font-weight: 800;
+
+            font-size: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 8px 12px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            font-size: 12px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+        }
+
+        .empty {
+            text-align: center;
+
+            padding: 50px;
+
+            color: #64748b;
+        }
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="nav">
+
+    <div class="logo">
+        🤖 AI Digital Credential
+    </div>
+
+    <a
+        class="btn"
+        href="{{ url_for('admin_dashboard') }}">
+
+        ← Dashboard
+
+    </a>
+
+</div>
+
+
+<div class="container">
+
+    <h1>
+        📄 Certificate Management
+    </h1>
+
+    <div class="subtitle">
+        Manage and verify student digital certificates
+    </div>
+
+
+    <div class="card">
+
+        {% if certificates %}
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Credential ID
+                        </th>
+
+                        <th>
+                            Certificate
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for certificate in certificates %}
+
+                    <tr>
+
+                        <td>
+                            {{ certificate["name"] }}
+                        </td>
+
+
+                        <td class="credential">
+
+                            {{ certificate["credential_id"] }}
+
+                        </td>
+
+
+                        <td>
+
+                            📄 Original Certificate
+
+                        </td>
+
+
+                        <td>
+
+                            {% if certificate["credential_id"] %}
+
+                                <span class="verified">
+                                    ✓ Registered
+                                </span>
+
+                            {% else %}
+
+                                <span class="unknown">
+                                    Pending
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                class="btn"
+                                href="{{ url_for(
+                                    'certificate'
+                                ) }}">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                📭 No certificates found.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

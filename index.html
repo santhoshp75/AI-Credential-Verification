@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Digital Credential Verification</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 64px;
+            background: #111827;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            color: white;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #818cf8;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .navbar a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .navbar a:hover {
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            text-align: center;
+            padding: 55px 20px 35px;
+        }
+
+        .hero-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 18px;
+            border-radius: 14px;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .hero h1 {
+            font-size: 34px;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .hero h2 {
+            font-size: 20px;
+            color: #4f46e5;
+            margin-bottom: 14px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: #6b7280;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* ================= LOGIN AREA ================= */
+
+        .login-area {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto 35px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-icon {
+            width: 46px;
+            height: 46px;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 7px;
+        }
+
+        .muted-text {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.10);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .login-btn:hover {
+            background: #4338ca;
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 18px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .register-text a {
+            color: #4f46e5;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* ================= ADMIN ================= */
+
+        .admin-card {
+            background: #111827;
+            color: white;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        .admin-card h2 {
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .admin-card p {
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .admin-login-btn {
+            display: inline-block;
+            padding: 11px 22px;
+            background: #6366f1;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .admin-login-btn:hover {
+            background: #4f46e5;
+        }
+
+        /* ================= FEATURES ================= */
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+            color: #111827;
+            font-size: 22px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 45px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 22px 18px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .feature-card p {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* ================= HOW IT WORKS ================= */
+
+        .flow-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 28px;
+            margin-bottom: 45px;
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .flow-item {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .flow-number {
+            width: 35px;
+            height: 35px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .flow-item h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .flow-item p {
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            text-align: center;
+            padding: 22px;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .feature-grid,
+            .flow-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .navbar {
+                padding: 0 5%;
+            }
+        }
+
+        @media (max-width: 550px) {
+
+            .navbar {
+                height: auto;
+                padding: 16px 5%;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .navbar-links {
+                gap: 18px;
+            }
+
+            .hero {
+                padding-top: 35px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .hero h2 {
+                font-size: 17px;
+            }
+
+            .feature-grid,
+            .flow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .login-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🤖 AI <span>Digital Credential</span>
+    </div>
+
+    <div class="navbar-links">
+        <a href="/">Home</a>
+        <a href="#features">Features</a>
+        <a href="#admin">Admin</a>
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            🤖
+        </div>
+
+        <h1>
+            AI Digital Credential
+        </h1>
+
+        <h2>
+            Certificate Verification System
+        </h2>
+
+        <p>
+            Securely manage, verify and authenticate digital
+            certificates using AI-powered credential verification.
+        </p>
+
+    </section>
+
+
+    <!-- ================= STUDENT LOGIN ================= -->
+
+    <section class="login-area">
+
+        <div class="login-card">
+
+            <div class="card-icon">
+                🎓
+            </div>
+
+            <h2>
+                Student Login
+            </h2>
+
+            <p class="muted-text">
+                Login to access your digital credentials
+                and certificate verification.
+            </p>
+
+            <form action="{{ url_for('login') }}" method="POST">
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <button type="submit" class="login-btn">
+                    🔐 Login
+                </button>
+
+            </form>
+
+            <p class="register-text">
+                Don't have an account?
+                <a href="{{ url_for('register') }}">
+                    Register Now
+                </a>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ADMIN ================= -->
+
+    <section id="admin" class="admin-card">
+
+        <h2>
+            🛡️ Admin Control Center
+        </h2>
+
+        <p>
+            Authorized administrators can manage credentials,
+            certificates and verification history from the
+            secure administration dashboard.
+        </p>
+
+        <a href="{{ url_for('admin_login') }}"
+           class="admin-login-btn">
+            Admin Login →
+        </a>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section id="features">
+
+        <div class="section-title">
+            <h2>System Features</h2>
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+
+                <h3>AI Verification</h3>
+
+                <p>
+                    Extract certificate information and
+                    verify credentials automatically.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <div class="feature-icon">📜</div>
+
+                <h3>Digital Credentials</h3>
+
+                <p>
+                    Generate unique digital credential IDs
+                    for registered certificates.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <div class="feature-icon">🔳</div>
+
+                <h3>QR Verification</h3>
+
+                <p>
+                    Verify digital credentials using
+                    QR and validation codes.
+                </p>
+            </div>
+
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+
+                <h3>Secure Admin</h3>
+
+                <p>
+                    Monitor credentials, uploads and
+                    verification history.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SYSTEM FLOW ================= -->
+
+    <section class="flow-section">
+
+        <div class="section-title">
+            <h2>How It Works</h2>
+        </div>
+
+        <div class="flow-grid">
+
+            <div class="flow-item">
+
+                <div class="flow-number">
+                    01
+                </div>
+
+                <h3>
+                    Register
+                </h3>
+
+                <p>
+                    Student creates a digital credential.
+                </p>
+
+            </div>
+
+
+            <div class="flow-item">
+
+                <div class="flow-number">
+                    02
+                </div>
+
+                <h3>
+                    Generate
+                </h3>
+
+                <p>
+                    System generates a unique Credential ID.
+                </p>
+
+            </div>
+
+
+            <div class="flow-item">
+
+                <div class="flow-number">
+                    03
+                </div>
+
+                <h3>
+                    Verify
+                </h3>
+
+                <p>
+                    AI extracts and checks certificate data.
+                </p>
+
+            </div>
+
+
+            <div class="flow-item">
+
+                <div class="flow-number">
+                    04
+                </div>
+
+                <h3>
+                    Authenticate
+                </h3>
+
+                <p>
+                    Database and QR verification confirm
+                    the credential.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        🤖 AI Digital Credential & Certificate Verification System
+    </p>
+
+    <p>
+        © 2026 All Rights Reserved
+    </p>
+
+</footer>
+
+</body>
+</html>
+

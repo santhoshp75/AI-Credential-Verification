@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Verification Result</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f7fb;
+        min-height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 550px;
+
+        background: white;
+
+        padding: 30px;
+
+        border-radius: 18px;
+
+        text-align: center;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.10);
+    }
+
+    .icon {
+        width: 80px;
+        height: 80px;
+
+        margin: 0 auto 20px;
+
+        border-radius: 50%;
+
+        background: #ffe5e5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 40px;
+
+        color: #c1121f;
+
+        font-weight: bold;
+    }
+
+    h1 {
+        color: #c1121f;
+
+        margin-bottom: 10px;
+
+        font-size: 30px;
+    }
+
+    .status {
+        color: #c1121f;
+
+        font-size: 18px;
+
+        font-weight: bold;
+
+        margin-bottom: 20px;
+    }
+
+    .message {
+        background: #fff1f1;
+
+        color: #8b1e28;
+
+        padding: 18px;
+
+        border-radius: 10px;
+
+        line-height: 1.6;
+
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        display: block;
+
+        width: 100%;
+
+        margin-top: 15px;
+
+        padding: 13px;
+
+        border-radius: 10px;
+
+        background: #1d3557;
+
+        color: white;
+
+        text-decoration: none;
+
+        font-weight: bold;
+
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #16324f;
+
+        transform: translateY(-1px);
+    }
+
+    .home-btn {
+        background: #457b9d;
+    }
+
+    .home-btn:hover {
+        background: #356b8a;
+    }
+
+    @media (max-width: 500px) {
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 25px;
+        }
+
+        .status {
+            font-size: 16px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<!-- INVALID ICON -->
+
+<div class="icon">
+    ✕
+</div>
+
+
+<!-- TITLE -->
+
+<h1>
+    Certificate Invalid
+</h1>
+
+
+<div class="status">
+    INVALID CERTIFICATE
+</div>
+
+
+<!-- MESSAGE -->
+
+<div class="message">
+
+    The uploaded certificate could not be matched
+    with a registered certificate record.
+
+    <br><br>
+
+    Please check the certificate details
+    and try again.
+
+</div>
+
+
+<!-- VERIFY AGAIN -->
+
+<a
+    href="{{ url_for('ai_verify') }}"
+    class="btn"
+>
+    Verify Another Certificate
+</a>
+
+
+<!-- HOME -->
+
+<a
+    href="{{ url_for('home') }}"
+    class="btn home-btn"
+>
+    Back to Home
+</a>
+
+</div>
+
+</body>
+</html>

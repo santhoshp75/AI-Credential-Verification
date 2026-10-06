@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Credential Account</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            background: white;
+            padding: 32px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin: 8px 0 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4f46e5;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+        }
+
+        .login a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 24px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">AI</div>
+
+    <h2>Create Account</h2>
+
+    <p class="subtitle">
+        Create your digital credential profile
+    </p>
+
+    <form method="POST" action="{{ url_for('register') }}">
+
+        <!-- STUDENT NAME -->
+        <label>Student Name</label>
+        <input
+            type="text"
+            name="name"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <!-- EMAIL -->
+        <label>Email Address</label>
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <!-- PASSWORD -->
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="Create a password"
+            required
+        >
+
+        <!-- ORGANIZATION -->
+        <label>Issuing University / Organization</label>
+        <input
+            type="text"
+            name="organization"
+            placeholder="Enter university or organization name"
+            required
+        >
+
+        <!-- BUTTON -->
+        <button type="submit">
+            Create Credential Account
+        </button>
+
+    </form>
+
+    <div class="login">
+        Already have an account?
+        <a href="{{ url_for('home') }}">Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>

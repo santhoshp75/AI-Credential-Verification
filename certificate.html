@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Digital Certificate</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eef2ff,
+                    #ecfeff
+                );
+
+            color: #172033;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .cert-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 16px 6%;
+
+            background: rgba(255,255,255,.88);
+
+            backdrop-filter: blur(15px);
+
+            border-bottom:
+                1px solid #e2e8f0;
+
+            box-shadow:
+                0 5px 25px rgba(15,23,42,.06);
+        }
+
+
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: #312e81;
+        }
+
+
+        .brand span {
+            color: #0891b2;
+        }
+
+
+        .nav-links {
+            display: flex;
+            gap: 18px;
+        }
+
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+
+        /* =========================
+           BACKGROUND EFFECT
+        ========================= */
+
+        .bg-orb {
+            position: fixed;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            filter: blur(50px);
+
+            opacity: .20;
+
+            pointer-events: none;
+
+            z-index: -1;
+        }
+
+
+        .orb-one {
+            top: 15%;
+            left: -100px;
+
+            background: #6366f1;
+
+            animation:
+                moveOrbOne 8s ease-in-out infinite;
+        }
+
+
+        .orb-two {
+            right: -100px;
+            bottom: 10%;
+
+            background: #06b6d4;
+
+            animation:
+                moveOrbTwo 10s ease-in-out infinite;
+        }
+
+
+        @keyframes moveOrbOne {
+
+            0%,100% {
+                transform: translate(0,0);
+            }
+
+            50% {
+                transform: translate(100px,80px);
+            }
+
+        }
+
+
+        @keyframes moveOrbTwo {
+
+            0%,100% {
+                transform: translate(0,0);
+            }
+
+            50% {
+                transform: translate(-90px,-70px);
+            }
+
+        }
+
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            width: min(1100px, 92%);
+
+            margin:
+                45px auto 70px;
+        }
+
+
+        .heading {
+            text-align: center;
+
+            margin-bottom: 30px;
+
+            animation:
+                fadeDown .7s ease;
+        }
+
+
+        .heading h1 {
+            margin: 0 0 8px;
+
+            font-size:
+                clamp(28px, 5vw, 42px);
+
+            color: #1e1b4b;
+        }
+
+
+        .heading p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           CERTIFICATE FRAME
+        ========================= */
+
+        .certificate-frame {
+
+            position: relative;
+
+            padding: 7px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #6366f1,
+                    #8b5cf6,
+                    #06b6d4,
+                    #6366f1
+                );
+
+            background-size:
+                300% 300%;
+
+            animation:
+                gradientMove 6s ease infinite,
+                certificateAppear .9s ease;
+
+            box-shadow:
+                0 25px 70px
+                rgba(79,70,229,.18);
+        }
+
+
+        .certificate {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding:
+                55px 50px;
+
+            border-radius: 24px;
+
+            background:
+                rgba(255,255,255,.98);
+
+            border:
+                1px solid #e2e8f0;
+
+            text-align: center;
+        }
+
+
+        /* =========================
+           SHINE EFFECT
+        ========================= */
+
+        .certificate::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: -100%;
+
+            left: -80%;
+
+            width: 45%;
+
+            height: 300%;
+
+            transform:
+                rotate(25deg);
+
+            background:
+                linear-gradient(
+                    transparent,
+                    rgba(255,255,255,.70),
+                    transparent
+                );
+
+            animation:
+                shine 5s infinite;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           DECORATION
+        ========================= */
+
+        .circle-one,
+        .circle-two {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+        }
+
+
+        .circle-one {
+
+            width: 220px;
+            height: 220px;
+
+            top: -120px;
+            right: -80px;
+
+            background:
+                rgba(99,102,241,.08);
+        }
+
+
+        .circle-two {
+
+            width: 180px;
+            height: 180px;
+
+            bottom: -100px;
+            left: -70px;
+
+            background:
+                rgba(6,182,212,.08);
+        }
+
+
+        /* =========================
+           AI LOGO
+        ========================= */
+
+        .ai-logo {
+
+            width: 75px;
+            height: 75px;
+
+            margin:
+                0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            font-size: 38px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #cffafe
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(79,70,229,.12);
+
+            animation:
+                floating 3s ease-in-out infinite;
+        }
+
+
+        /* =========================
+           TITLES
+        ========================= */
+
+        .main-title {
+
+            margin: 0;
+
+            font-size:
+                clamp(27px, 5vw, 45px);
+
+            font-weight: 900;
+
+            letter-spacing: 3px;
+
+            color: #312e81;
+        }
+
+
+        .subtitle {
+
+            margin-top: 8px;
+
+            font-size: 13px;
+
+            letter-spacing: 2px;
+
+            color: #64748b;
+        }
+
+
+        .presented {
+
+            margin-top: 38px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .student-name {
+
+            margin: 10px 0;
+
+            font-size:
+                clamp(30px, 5vw, 40px);
+
+            font-weight: 900;
+
+            color: #111827;
+
+            word-break: break-word;
+        }
+
+
+        .course-title {
+
+            margin-top: 18px;
+
+            font-size: 22px;
+
+            font-weight: 800;
+
+            color: #4f46e5;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================
+           DETAILS
+        ========================= */
+
+        .details {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 16px;
+
+            margin-top: 35px;
+
+            text-align: left;
+        }
+
+
+        .detail {
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background:
+                #f8fafc;
+
+            border:
+                1px solid #e2e8f0;
+
+            transition:
+                transform .25s,
+                box-shadow .25s;
+        }
+
+
+        .detail:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(15,23,42,.08);
+        }
+
+
+        .detail-label {
+
+            margin-bottom: 7px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            color: #64748b;
+        }
+
+
+        .detail-value {
+
+            font-weight: 800;
+
+            color: #1e293b;
+
+            word-break: break-word;
+        }
+
+
+        .credential-value {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 8px;
+        }
+
+
+        /* =========================
+           COPY BUTTON
+        ========================= */
+
+        .copy-btn {
+
+            border: none;
+
+            padding:
+                7px 10px;
+
+            border-radius: 8px;
+
+            background:
+                #eef2ff;
+
+            color: #4f46e5;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            transition: .2s;
+        }
+
+
+        .copy-btn:hover {
+
+            background:
+                #e0e7ff;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        /* =========================
+           QR SECTION
+        ========================= */
+
+        .qr-section {
+
+            margin-top: 35px;
+
+            padding-top: 30px;
+
+            border-top:
+                1px solid #e2e8f0;
+        }
+
+
+        .qr-title {
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            color: #1e1b4b;
+        }
+
+
+        .qr-description {
+
+            margin-top: 6px;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+
+        .qr-wrapper {
+
+            width: 190px;
+            height: 190px;
+
+            margin: 20px auto;
+
+            padding: 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            border-radius: 20px;
+
+            border:
+                1px solid #e2e8f0;
+
+            box-shadow:
+                0 15px 35px
+                rgba(15,23,42,.12);
+
+            animation:
+                qrAppear .8s ease;
+        }
+
+
+        .qr {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            border-radius: 10px;
+
+            transition:
+                transform .3s ease;
+        }
+
+
+        .qr-wrapper:hover .qr {
+
+            transform:
+                scale(1.05);
+        }
+
+
+        .qr-unavailable {
+
+            padding: 25px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           VERIFIED
+        ========================= */
+
+        .verified {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+            padding: 15px;
+
+            border-radius: 15px;
+
+            background:
+                #ecfdf5;
+
+            border:
+                1px solid #bbf7d0;
+
+            color: #15803d;
+
+            font-weight: 800;
+
+            animation:
+                verifiedPulse 2s infinite;
+        }
+
+
+        .check {
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            background:
+                #22c55e;
+
+            animation:
+                checkPop .5s ease;
+        }
+
+
+        /* =========================
+           CREDENTIAL STATUS
+        ========================= */
+
+        .status-line {
+
+            margin-top: 12px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .actions {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 13px;
+
+            margin-top: 28px;
+        }
+
+
+        .action {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 13px 20px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            font-weight: 800;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(79,70,229,.18);
+
+            transition:
+                transform .25s,
+                box-shadow .25s;
+        }
+
+
+        .action:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(79,70,229,.25);
+        }
+
+
+        .action.secondary {
+
+            color: #334155;
+
+            background: white;
+
+            border:
+                1px solid #cbd5e1;
+
+            box-shadow: none;
+        }
+
+
+        .action.secondary:hover {
+
+            background:
+                #f8fafc;
+        }
+
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+
+            position: fixed;
+
+            left: 50%;
+
+            bottom: 25px;
+
+            transform:
+                translate(-50%, 80px);
+
+            padding:
+                12px 18px;
+
+            border-radius: 12px;
+
+            background:
+                #0f172a;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                .3s ease;
+
+            z-index: 9999;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,.2);
+        }
+
+
+        .toast.show {
+
+            opacity: 1;
+
+            transform:
+                translate(-50%, 0);
+        }
+
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes fadeDown {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes certificateAppear {
+
+            from {
+                opacity: 0;
+                transform:
+                    scale(.94)
+                    translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    scale(1)
+                    translateY(0);
+            }
+        }
+
+
+        @keyframes floating {
+
+            0%,100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-7px);
+            }
+        }
+
+
+        @keyframes shine {
+
+            0% {
+                left: -80%;
+            }
+
+            55%,100% {
+                left: 150%;
+            }
+        }
+
+
+        @keyframes gradientMove {
+
+            0% {
+                background-position:
+                    0% 50%;
+            }
+
+            50% {
+                background-position:
+                    100% 50%;
+            }
+
+            100% {
+                background-position:
+                    0% 50%;
+            }
+        }
+
+
+        @keyframes verifiedPulse {
+
+            0%,100% {
+                box-shadow:
+                    0 0 0
+                    rgba(34,197,94,0);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 25px
+                    rgba(34,197,94,.16);
+            }
+        }
+
+
+        @keyframes checkPop {
+
+            from {
+                transform:
+                    scale(0);
+            }
+
+            to {
+                transform:
+                    scale(1);
+            }
+        }
+
+
+        @keyframes qrAppear {
+
+            from {
+                opacity: 0;
+                transform:
+                    scale(.8);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    scale(1);
+            }
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media(max-width: 700px) {
+
+            .cert-nav {
+
+                padding:
+                    14px 4%;
+
+                flex-direction:
+                    column;
+
+                gap: 12px;
+            }
+
+
+            .nav-links {
+
+                gap: 12px;
+
+                font-size: 13px;
+            }
+
+
+            .page {
+
+                width: 94%;
+
+                margin:
+                    25px auto;
+            }
+
+
+            .certificate {
+
+                padding:
+                    40px 18px;
+            }
+
+
+            .details {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .actions {
+
+                flex-direction:
+                    column;
+            }
+
+
+            .action {
+
+                width: 100%;
+            }
+
+
+            .qr-wrapper {
+
+                width: 160px;
+                height: 160px;
+            }
+
+
+            .credential-value {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .copy-btn {
+
+                width: 100%;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- Animated Background -->
+
+<div class="bg-orb orb-one"></div>
+
+<div class="bg-orb orb-two"></div>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<nav class="cert-nav">
+
+    <div class="brand">
+
+        🤖 AI
+        <span>Digital Credential</span>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('ai_verify') }}">
+            AI Verify
+        </a>
+
+        <a href="{{ url_for('logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="page">
+
+
+    <!-- PAGE HEADING -->
+
+    <section class="heading">
+
+        <h1>
+            🎓 My Digital Certificate
+        </h1>
+
+        <p>
+            Your secure and verified digital credential
+        </p>
+
+    </section>
+
+
+    <!-- =====================
+         CERTIFICATE
+    ===================== -->
+
+    <section class="certificate-frame">
+
+        <div class="certificate">
+
+
+            <!-- Decorative Elements -->
+
+            <div class="circle-one"></div>
+
+            <div class="circle-two"></div>
+
+
+            <!-- AI LOGO -->
+
+            <div class="ai-logo">
+                🤖
+            </div>
+
+
+            <!-- TITLE -->
+
+            <h2 class="main-title">
+                DIGITAL CREDENTIAL
+            </h2>
+
+
+            <div class="subtitle">
+                VERIFIED DIGITAL CERTIFICATE
+            </div>
+
+
+            <!-- STUDENT -->
+
+            <div class="presented">
+                This certificate is proudly presented to
+            </div>
+
+
+            <div class="student-name">
+                {{ user["name"] }}
+            </div>
+
+
+            <!-- DYNAMIC CERTIFICATE TITLE -->
+
+            <div class="course-title">
+
+                {{ user["certificate_title"] }}
+
+            </div>
+
+
+            <!-- =====================
+                 DETAILS
+            ===================== -->
+
+            <div class="details">
+
+
+                <!-- CERTIFICATE TYPE -->
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        CERTIFICATE TYPE
+                    </div>
+
+                    <div class="detail-value">
+
+                        {{ user["certificate_type"] }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- ORGANIZATION -->
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        ISSUING ORGANIZATION
+                    </div>
+
+                    <div class="detail-value">
+
+                        {{ user["organization"] }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- ISSUE DATE -->
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        ISSUE DATE
+                    </div>
+
+                    <div class="detail-value">
+
+                        {{ user["issue_date"] }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- CREDENTIAL ID -->
+
+                <div class="detail">
+
+                    <div class="detail-label">
+                        CREDENTIAL ID
+                    </div>
+
+
+                    <div class="credential-value">
+
+                        <div
+                            class="detail-value"
+                            id="credentialId"
+                        >
+
+                            {{ user["credential_id"] }}
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="copy-btn"
+                            onclick="copyCredential()"
+                        >
+
+                            📋 Copy
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =====================
+                 QR VERIFICATION
+            ===================== -->
+
+            <div class="qr-section">
+
+
+                <div class="qr-title">
+
+                    📱 Scan to Verify
+
+                </div>
+
+
+                <div class="qr-description">
+
+                    Scan the QR code to verify
+                    this credential instantly.
+
+                </div>
+
+
+                {% if qr_code %}
+
+                    <div class="qr-wrapper">
+
+                        <img
+                            class="qr"
+                            src="{{ url_for(
+                                'static',
+                                filename='qr_codes/' + qr_code
+                            ) }}"
+                            alt="Credential QR Code"
+                        >
+
+                    </div>
+
+                {% else %}
+
+                    <div class="qr-unavailable">
+
+                        ⚠️ QR code is currently unavailable.
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="status-line">
+
+                    Credential ID:
+                    <strong>
+                        {{ user["credential_id"] }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =====================
+                 VERIFIED STATUS
+            ===================== -->
+
+            <div class="verified">
+
+                <span class="check">
+                    ✓
+                </span>
+
+                AUTHENTIC CREDENTIAL VERIFIED
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================
+         ACTION BUTTONS
+    ===================== -->
+
+    <div class="actions">
+
+
+        <!-- DOWNLOAD -->
+
+        <a
+            class="action"
+            href="{{ url_for('download_certificate') }}"
+        >
+
+            📥 Download PDF
+
+        </a>
+
+
+        <!-- AI VERIFY -->
+
+        <a
+            class="action"
+            href="{{ url_for('ai_verify') }}"
+        >
+
+            🤖 AI Verification
+
+        </a>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+            class="action secondary"
+            href="{{ url_for('dashboard') }}"
+        >
+
+            ← Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+<!-- Toast -->
+
+<div
+    id="toast"
+    class="toast"
+>
+</div>
+
+
+<script>
+
+
+    /* =========================
+       COPY CREDENTIAL ID
+    ========================= */
+
+    function copyCredential() {
+
+        const element =
+            document.getElementById(
+                "credentialId"
+            );
+
+        const credential =
+            element.innerText.trim();
+
+
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            navigator.clipboard
+                .writeText(credential)
+                .then(function () {
+
+                    showToast(
+                        "✓ Credential ID copied"
+                    );
+
+                })
+                .catch(function () {
+
+                    fallbackCopy(credential);
+
+                });
+
+        }
+
+        else {
+
+            fallbackCopy(credential);
+
+        }
+
+    }
+
+
+    /* =========================
+       FALLBACK COPY
+    ========================= */
+
+    function fallbackCopy(text) {
+
+        const textarea =
+            document.createElement("textarea");
+
+        textarea.value = text;
+
+        textarea.style.position =
+            "fixed";
+
+        textarea.style.opacity = "0";
+
+        document.body.appendChild(
+            textarea
+        );
+
+        textarea.focus();
+
+        textarea.select();
+
+        try {
+
+            document.execCommand("copy");
+
+            showToast(
+                "✓ Credential ID copied"
+            );
+
+        }
+
+        catch (error) {
+
+            showToast(
+                "Unable to copy Credential ID"
+            );
+
+        }
+
+        document.body.removeChild(
+            textarea
+        );
+
+    }
+
+
+    /* =========================
+       TOAST
+    ========================= */
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+        toast.textContent =
+            message;
+
+        toast.classList.add(
+            "show"
+        );
+
+
+        setTimeout(function () {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        }, 2200);
+
+    }
+
+
+    /* =========================
+       PAGE LOAD
+    ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            document.body.style.opacity =
+                "1";
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>

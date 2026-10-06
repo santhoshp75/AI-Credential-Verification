@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | AI Digital Credential</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="admin-login-page">
+
+    <!-- Animated Background -->
+    <div class="admin-bg">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="grid-lines"></div>
+    </div>
+
+
+    <div class="admin-login-wrapper">
+
+        <!-- Left Information -->
+        <div class="admin-info">
+
+            <div class="admin-logo">
+                🤖
+            </div>
+
+            <h1>
+                AI Digital
+                <span>Credential</span>
+            </h1>
+
+            <h2>
+                Administration Portal
+            </h2>
+
+            <p>
+                Securely manage digital credentials,
+                certificate verification and system
+                activities from one intelligent dashboard.
+            </p>
+
+
+            <div class="admin-features">
+
+                <div class="admin-feature">
+                    <span>🛡️</span>
+                    <div>
+                        <strong>Secure Access</strong>
+                        <small>Protected administrator login</small>
+                    </div>
+                </div>
+
+
+                <div class="admin-feature">
+                    <span>📊</span>
+                    <div>
+                        <strong>Live Dashboard</strong>
+                        <small>Monitor verification activity</small>
+                    </div>
+                </div>
+
+
+                <div class="admin-feature">
+                    <span>🤖</span>
+                    <div>
+                        <strong>AI Verification</strong>
+                        <small>Intelligent certificate checking</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Login Card -->
+        <div class="admin-login-card">
+
+            <div class="login-icon">
+                🔐
+            </div>
+
+            <h2>
+                Admin Login
+            </h2>
+
+            <p class="login-subtitle">
+                Access your control dashboard
+            </p>
+
+
+            {% if error %}
+
+            <div class="login-error">
+                ❌ {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST"
+                  action="{{ url_for('admin_login') }}"
+                  id="adminLoginForm">
+
+
+                <div class="input-group">
+
+                    <label>
+                        👤 Admin Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Enter admin username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        🔑 Admin Password
+                    </label>
+
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter admin password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword()"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="admin-login-submit"
+                    id="loginButton"
+                >
+
+                    <span id="loginText">
+                        🔓 Login to Dashboard
+                    </span>
+
+                    <span
+                        id="loginLoading"
+                        style="display:none;"
+                    >
+                        <span class="mini-loader"></span>
+                        Authenticating...
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="secure-status">
+
+                <span class="status-dot"></span>
+
+                Secure Admin Authentication
+
+            </div>
+
+
+            <a
+                href="{{ url_for('home') }}"
+                class="back-home"
+            >
+                ← Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* ==========================================
+           PASSWORD SHOW / HIDE
+        ========================================== */
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.querySelector(".show-password");
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.innerHTML = "🙈";
+
+            } else {
+
+                password.type = "password";
+
+                button.innerHTML = "👁️";
+
+            }
+
+        }
+
+
+        /* ==========================================
+           LOGIN LOADING ANIMATION
+        ========================================== */
+
+        document
+            .getElementById("adminLoginForm")
+            .addEventListener("submit", function () {
+
+                document
+                    .getElementById("loginText")
+                    .style.display = "none";
+
+                document
+                    .getElementById("loginLoading")
+                    .style.display = "inline-flex";
+
+                document
+                    .getElementById("loginButton")
+                    .disabled = true;
+
+            });
+
+
+        /* ==========================================
+           INPUT ANIMATION
+        ========================================== */
+
+        const inputs =
+            document.querySelectorAll("input");
+
+
+        inputs.forEach(function(input) {
+
+            input.addEventListener("focus", function() {
+
+                this.parentElement
+                    .classList.add("active");
+
+            });
+
+
+            input.addEventListener("blur", function() {
+
+                this.parentElement
+                    .classList.remove("active");
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

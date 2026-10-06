@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Credential Verification</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    {% if verified and user %}
+
+        <div class="dashboard-card">
+
+            <h1>✓</h1>
+
+            <h2>AUTHENTIC CREDENTIAL</h2>
+
+            <p>
+                This digital credential has been
+                successfully verified.
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>Certificate Holder</strong>
+            </p>
+
+            <p>
+                {{ user["name"] }}
+            </p>
+
+
+            <p>
+                <strong>Certificate Type</strong>
+            </p>
+
+            <p>
+                {{ user["certificate_type"] }}
+            </p>
+
+
+            <p>
+                <strong>Certificate Title</strong>
+            </p>
+
+            <p>
+                {{ user["certificate_title"] }}
+            </p>
+
+
+            <p>
+                <strong>Issuing Organization</strong>
+            </p>
+
+            <p>
+                {{ user["organization"] }}
+            </p>
+
+
+            <p>
+                <strong>Issue Date</strong>
+            </p>
+
+            <p>
+                {{ user["issue_date"] }}
+            </p>
+
+
+            <p>
+                <strong>Credential ID</strong>
+            </p>
+
+            <p>
+                {{ user["credential_id"] }}
+            </p>
+
+
+            <div class="verified-box">
+
+                ✓ VERIFIED DIGITAL CREDENTIAL
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="dashboard-card">
+
+            <h1>✕</h1>
+
+            <h2>INVALID CREDENTIAL</h2>
+
+            <p>
+                This credential could not be found
+                in the verification database.
+            </p>
+
+            <div class="failed-box">
+
+                ✕ VERIFICATION FAILED
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

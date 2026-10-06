@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Certificate Verified</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: #d8f3dc;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 42px;
+
+            color: #16803c;
+
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #16803c;
+
+            margin-bottom: 8px;
+
+            font-size: 30px;
+        }
+
+        .status {
+            color: #16803c;
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .details {
+            text-align: left;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            padding: 20px;
+        }
+
+        .row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #ddd;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            font-weight: bold;
+
+            color: #555;
+
+            min-width: 150px;
+        }
+
+        .value {
+            color: #222;
+
+            text-align: right;
+
+            word-break: break-word;
+
+            max-width: 60%;
+        }
+
+        .verified-box {
+            margin-top: 20px;
+
+            padding: 15px;
+
+            background: #e9f7ef;
+
+            border-radius: 10px;
+
+            color: #176b38;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: block;
+
+            margin-top: 20px;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            background: #1d3557;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                padding: 20px;
+
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .status {
+                font-size: 16px;
+            }
+
+            .row {
+                flex-direction: column;
+
+                gap: 5px;
+            }
+
+            .label {
+                min-width: 100%;
+            }
+
+            .value {
+                text-align: left;
+
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- VERIFIED ICON -->
+
+    <div class="icon">
+        ✓
+    </div>
+
+
+    <!-- TITLE -->
+
+    <h1>
+        Certificate Verified
+    </h1>
+
+    <div class="status">
+        VALID CERTIFICATE
+    </div>
+
+
+    <!-- CERTIFICATE DETAILS -->
+
+    <div class="details">
+
+        <!-- STUDENT NAME -->
+
+        <div class="row">
+
+            <span class="label">
+                Student Name
+            </span>
+
+            <span class="value">
+                {{ certificate.student_name or "Not Available" }}
+            </span>
+
+        </div>
+
+
+        <!-- CREDENTIAL ID -->
+
+        <div class="row">
+
+            <span class="label">
+                Credential ID
+            </span>
+
+            <span class="value">
+                {{ certificate.credential_id or credential_id or "Not Available" }}
+            </span>
+
+        </div>
+
+
+        <!-- VALIDATION CODE -->
+
+        <div class="row">
+
+            <span class="label">
+                Validation Code
+            </span>
+
+            <span class="value">
+                {{ certificate.validation_code or validation_code or "Not Available" }}
+            </span>
+
+        </div>
+
+
+        <!-- ORGANIZATION -->
+
+        <div class="row">
+
+            <span class="label">
+                Organization
+            </span>
+
+            <span class="value">
+                {{ certificate.organization or "Not Available" }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- VERIFIED MESSAGE -->
+
+    <div class="verified-box">
+
+        ✓ Certificate details successfully matched
+        with the registered certificate record.
+
+    </div>
+
+
+    <!-- VERIFY ANOTHER -->
+
+    <a
+        href="{{ url_for('ai_verify') }}"
+        class="btn"
+    >
+        Verify Another Certificate
+    </a>
+
+
+    <!-- HOME -->
+
+    <a
+        href="{{ url_for('home') }}"
+        class="btn"
+        style="background:#457b9d;"
+    >
+        Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

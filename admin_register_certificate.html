@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Register Original Certificate</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+    .page-title {
+        margin-bottom: 10px;
+    }
+
+    .page-description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .ocr-box {
+        margin-top: 30px;
+        padding: 25px;
+        border-radius: 15px;
+        background: #f5f7fb;
+        border: 1px solid #d9dfe8;
+    }
+
+    .ocr-box h2 {
+        margin: 0 0 10px 0;
+    }
+
+    .ocr-description {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .ocr-text {
+        display: block;
+        width: 100%;
+        height: 400px;
+        box-sizing: border-box;
+        padding: 18px;
+        border: 2px solid #cfd5df;
+        border-radius: 12px;
+        background: #ffffff;
+        color: #222;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        resize: vertical;
+        overflow-y: auto;
+        white-space: pre-wrap;
+    }
+
+    .ocr-text:focus {
+        outline: none;
+        border-color: #4f46e5;
+    }
+
+    .copy-btn {
+        margin-top: 12px;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        background: #4f46e5;
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .copy-btn:hover {
+        background: #3730a3;
+    }
+
+    .detected-box {
+        margin-top: 25px;
+        padding: 22px;
+        border-radius: 15px;
+        background: #ffffff;
+        border: 1px solid #d9dfe8;
+    }
+
+    .detected-box h2 {
+        margin-top: 0;
+    }
+
+    .detected-item {
+        margin: 12px 0;
+        padding: 15px;
+        border-radius: 10px;
+        background: #f8f9fa;
+        border: 1px solid #e1e5eb;
+        word-break: break-all;
+    }
+
+    .detected-value {
+        display: block;
+        margin-top: 8px;
+        font-family: Consolas, monospace;
+        font-weight: bold;
+        color: #111827;
+    }
+
+    .success-box {
+        color: #166534;
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 10px;
+        background: #ecfdf3;
+        border: 1px solid #bbf7d0;
+    }
+
+    .error-box {
+        color: #991b1b;
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 10px;
+        background: #fff1f2;
+        border: 1px solid #fecdd3;
+    }
+
+    .not-detected {
+        color: #dc2626;
+        font-weight: bold;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<h1 class="page-title">
+    📜 Register Original Certificate
+</h1>
+
+<p class="page-description">
+    Select the student and upload the original certificate.
+    The system will extract certificate text using OCR
+    and detect the Credential ID and Validation Code.
+</p>
+
+
+<!-- ================================================= -->
+<!-- ERROR -->
+<!-- ================================================= -->
+
+{% if error %}
+
+    <div class="error-box">
+
+        <strong>⚠️ Error</strong>
+
+        <br><br>
+
+        {{ error }}
+
+    </div>
+
+{% endif %}
+
+
+<!-- ================================================= -->
+<!-- SUCCESS -->
+<!-- ================================================= -->
+
+{% if success %}
+
+    <div class="success-box">
+
+        <strong>
+            ✅ {{ success }}
+        </strong>
+
+    </div>
+
+{% endif %}
+
+
+<!-- ================================================= -->
+<!-- UPLOAD FORM -->
+<!-- ================================================= -->
+
+<form method="POST"
+      action="{{ url_for('admin_register_certificate') }}"
+      enctype="multipart/form-data">
+
+
+    <!-- STUDENT -->
+
+    <div class="form-group">
+
+        <label for="student_id">
+
+            👨‍🎓 Select Student
+
+        </label>
+
+        <select id="student_id"
+                name="student_id"
+                required>
+
+            <option value="">
+
+                -- Select Student --
+
+            </option>
+
+            {% for user in users %}
+
+                <option value="{{ user.id }}">
+
+                    {{ user.name }}
+                    -
+                    {{ user.email }}
+                    -
+                    {{ user.credential_id }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- CERTIFICATE -->
+
+    <div class="form-group">
+
+        <label for="certificate">
+
+            📄 Select Original Certificate
+
+        </label>
+
+        <input type="file"
+               id="certificate"
+               name="certificate"
+               accept=".pdf,.png,.jpg,.jpeg"
+               required>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- SUBMIT -->
+
+    <button type="submit">
+
+        📤 Register Original Certificate
+
+    </button>
+
+</form>
+
+
+<!-- ================================================= -->
+<!-- DETECTED INFORMATION -->
+<!-- ================================================= -->
+
+{% if detected_credential_id or detected_validation_code %}
+
+    <div class="detected-box">
+
+        <h2>
+            🔎 Detected Certificate Information
+        </h2>
+
+
+        <!-- CREDENTIAL ID -->
+
+        <div class="detected-item">
+
+            <strong>
+                🆔 Credential ID
+            </strong>
+
+            {% if detected_credential_id %}
+
+                <span class="detected-value">
+                    {{ detected_credential_id }}
+                </span>
+
+            {% else %}
+
+                <span class="not-detected">
+                    NOT DETECTED
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- VALIDATION CODE -->
+
+        <div class="detected-item">
+
+            <strong>
+                🔐 Validation Code
+            </strong>
+
+            {% if detected_validation_code %}
+
+                <span class="detected-value">
+                    {{ detected_validation_code }}
+                </span>
+
+            {% else %}
+
+                <span class="not-detected">
+                    NOT DETECTED
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+
+<!-- ================================================= -->
+<!-- OCR EXTRACTED TEXT -->
+<!-- ================================================= -->
+
+{% if extracted_text %}
+
+    <div class="ocr-box">
+
+        <h2>
+            🔍 OCR Extracted Certificate Text
+        </h2>
+
+        <p class="ocr-description">
+            The following text was extracted from the
+            uploaded certificate using OCR.
+        </p>
+
+
+        <textarea
+            id="ocrText"
+            class="ocr-text"
+            readonly>{{ extracted_text }}</textarea>
+
+
+        <button
+            type="button"
+            class="copy-btn"
+            onclick="copyOCRText()">
+
+            📋 Copy OCR Text
+
+        </button>
+
+    </div>
+
+{% endif %}
+
+
+<!-- ================================================= -->
+<!-- OCR NOT AVAILABLE -->
+<!-- ================================================= -->
+
+{% if not extracted_text and success %}
+
+    <div class="ocr-box">
+
+        <h2>
+            🔍 OCR Extracted Certificate Text
+        </h2>
+
+        <p class="not-detected">
+            OCR text was not available.
+        </p>
+
+    </div>
+
+{% endif %}
+
+
+<br>
+
+
+<!-- ================================================= -->
+<!-- BACK -->
+<!-- ================================================= -->
+
+<a class="back-link"
+   href="{{ url_for('admin_dashboard') }}">
+
+    ← Back to Admin Dashboard
+
+</a>
+```
+
+</div>
+
+<!-- ================================================= -->
+
+<!-- COPY OCR JAVASCRIPT -->
+
+<!-- ================================================= -->
+
+<script>
+
+function copyOCRText() {
+
+    const textBox = document.getElementById("ocrText");
+
+    if (!textBox) {
+        return;
+    }
+
+    textBox.select();
+    textBox.setSelectionRange(0, 999999);
+
+    navigator.clipboard.writeText(textBox.value)
+        .then(function () {
+
+            alert("✅ OCR text copied successfully!");
+
+        })
+        .catch(function () {
+
+            document.execCommand("copy");
+
+            alert("✅ OCR text copied successfully!");
+
+        });
+
+}
+
+</script>
+
+</body>
+
+</html>

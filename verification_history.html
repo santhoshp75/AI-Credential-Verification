@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Verification History</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Verification History</h1>
+
+    <p>
+        Credential:
+        <strong>
+            {{ user["credential_id"] }}
+        </strong>
+    </p>
+
+
+    {% if history %}
+
+    <div class="history-list">
+
+        {% for item in history %}
+
+        <div class="history-card">
+
+            <h3>
+                {{ item["status"] }}
+            </h3>
+
+            <p>
+                <strong>Credential ID:</strong>
+                {{ item["credential_id"] }}
+            </p>
+
+            <p>
+                <strong>Verification Method:</strong>
+                {{ item["verification_method"] }}
+            </p>
+
+            <p>
+                <strong>Date & Time:</strong>
+                {{ item["verified_at"] }}
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="history-card">
+
+        <h3>No Verification History</h3>
+
+        <p>
+            No certificate verification has been
+            performed yet.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    <br>
+
+    <a href="{{ url_for('dashboard') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+
+</html>
